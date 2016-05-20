@@ -23,6 +23,7 @@ var app = app || {};
 			'click .destroy': 'clear',
 			'keypress .edit': 'updateOnEnter',
 			'keydown .edit': 'revertOnEscape',
+			'click .priority-btn': 'togglePriority',
 			'blur .edit': 'close'
 		},
 
@@ -51,6 +52,7 @@ var app = app || {};
 
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('completed', this.model.get('completed'));
+			this.$el.toggleClass('priority', this.model.get('prioritized'));
 			this.toggleVisible();
 			this.$input = this.$('.edit');
 			return this;
@@ -123,6 +125,11 @@ var app = app || {};
 				// Also reset the hidden input back to the original value.
 				this.$input.val(this.model.get('title'));
 			}
+		},
+
+		// Switch this view into `"editing"` mode, displaying the input field.
+		togglePriority: function () {
+			this.model.togglePriority();
 		},
 
 		// Remove the item, destroy the model from *localStorage* and delete its view.
